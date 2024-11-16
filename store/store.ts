@@ -1,6 +1,12 @@
 import { create } from "zustand";
 
-
-const userInfoStore = create((set) => ({
-    location: 
+export const userInfoStore = create((set) => ({
+  restaurantName: "",
+  restaurantType: "",
+  location: {
+    longitude: "",
+    latitude: "",
+  },
+  setLocation: (ln: string, lat: string) =>
+    set({ longitude: ln, latitude: lat }),
 }));
