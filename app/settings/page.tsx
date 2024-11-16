@@ -1,7 +1,7 @@
 "use client";
 // import { Card } from '@/components/ui/card';
 import { Label } from "@/components/ui/label";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { v4 as uuidv4 } from "uuid";
@@ -116,9 +116,14 @@ const Settings = () => {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
     console.log(restaurantType, restaurantName, location);
     console.log(process.env.AWS_ACCESS_KEY_ID);
   }, [restaurantType, restaurantName, location])
+=======
+    console.log(restaurantType);
+  }, [restaurantType]);
+>>>>>>> 51518ea8630c44821b519cc810b6666b923b081f
   return (
     <div>
       <h1 className="font-bold text-2xl m-2">Settings</h1>
@@ -126,7 +131,13 @@ const Settings = () => {
         <div className="mb-2">
           <Label className="mb-1">Restaurant Name</Label>
           <div className="flex">
-            <Input type="name" required className="w-1/4 mr-1" onChange={(e) => setRestaurantName(e.target.value)} value={restaurantName} />
+            <Input
+              type="name"
+              required
+              className="w-1/4 mr-1"
+              onChange={(e) => setRestaurantName(e.target.value)}
+              value={restaurantName}
+            />
             <span className="text-red-500 -translate-y-0.5">*</span>
           </div>
         </div>
