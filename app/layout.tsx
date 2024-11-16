@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import "@next/env"
+// import { config } from "dotenv";
+// config();
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

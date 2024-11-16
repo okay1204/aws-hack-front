@@ -3,6 +3,9 @@
 import { Label } from "@/components/ui/label";
 import React, {useEffect, useState} from "react";
 import { Input } from "@/components/ui/input";
+import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { v4 as uuidv4 } from "uuid";
+
 
 import {
   Select,
@@ -19,11 +22,19 @@ import { Button } from "@/components/ui/button";
 
 // integrate geolocation api
 const Settings = () => {
+  const dynamoClient = new DynamoDBClient({
+    region: "us-east-2",
+    credentials: {
+      accessKeyId: "AKIAS5M3Y3QQRVVZIWUM",
+      secretAccessKey: "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",
+    },
+  });
   const Geolocation = navigator.geolocation;
   const restaurantName = userInfoStore((state) => state.restaurantName);
   const restaurantType = userInfoStore((state) => state.restaurantType);
   const setRestaurantName = userInfoStore((state) => state.setRestaurantName);
   const setRestaurantType = userInfoStore((state) => state.setRestaurantType);
+  const location = userInfoStore((state) => state.location);
   const setLocation = userInfoStore((state) => state.setLocation);
   const [address, setAddress] = useState("");
   const restaurantTypes = [
@@ -53,8 +64,40 @@ const Settings = () => {
     "Taverns",
     "Gastropubs",
   ];
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    try {
+      const input = {
+        Item: {
+          restaurantId: {
+            "S": uuidv4(),
+          },
+          restaurantName: {
+            "S": restaurantName
+          },
+          restaurantType: {
+            "S": restaurantType
+          },
+          restaurantLocation: {
+            "M": {
+              longitude: { "S": location.longitude },
+              latitude: { "S": location.latitude }
+            }
+          }
+        },
+        TableName: "Restaurant"
+      }
+      const command = new PutItemCommand(input);
+      await dynamoClient.send(command);
+    }
+    catch (error) {
+      console.error(error);
+    }
+    setRestaurantName("");
+    setRestaurantType("");
+    setLocation("", "");
+    setAddress("");
   };
   const obtainLocation = () => {
     Geolocation.getCurrentPosition(
@@ -73,8 +116,9 @@ const Settings = () => {
   };
 
   useEffect(() => {
-    console.log(restaurantType);
-  }, [restaurantType])
+    console.log(restaurantType, restaurantName, location);
+    console.log(process.env.AWS_ACCESS_KEY_ID);
+  }, [restaurantType, restaurantName, location])
   return (
     <div>
       <h1 className="font-bold text-2xl m-2">Settings</h1>
@@ -95,7 +139,7 @@ const Settings = () => {
                 <SelectValue placeholder={String(restaurantTypes[0])} />
               </SelectTrigger>
               <SelectContent>
-                {restaurantTypes.slice(1).map((type, i) => {
+                {restaurantTypes.map((type, i) => {
                   return (
                     <SelectItem
                       key={i}
