@@ -1,6 +1,15 @@
 import { create } from "zustand";
 
-export const userInfoStore = create((set) => ({
+interface User {
+  restaurantName: string;
+  restaurantType: string;
+  location: { longitude: string; latitude: string };
+  setLocation: (ln: string, lat: string) => void;
+  setRestaurantName: (input: string) => void;
+  setRestaurantType: (input: string) => void;
+}
+
+export const userInfoStore = create<User>((set) => ({
   restaurantName: "",
   restaurantType: "",
   location: {
@@ -8,5 +17,7 @@ export const userInfoStore = create((set) => ({
     latitude: "",
   },
   setLocation: (ln: string, lat: string) =>
-    set({ longitude: ln, latitude: lat }),
+    set({ location: { longitude: ln, latitude: lat } }),
+  setRestaurantName: (input: string) => set({ restaurantName: input }),
+  setRestaurantType: (input: string) => set({ restaurantType: input })
 }));
