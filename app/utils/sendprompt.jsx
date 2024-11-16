@@ -7,28 +7,12 @@ const sendPromptAndData = async (prompt, LocationData) => {
         },
         body: JSON.stringify({prompt, data: LocationData}),
     });
-    //assuming response is in format 
-    // {
-    //     "status": 200,
-    //     "message": "Success"
-    //     "data": {
-    //          [
-    //             {name, x, y, item, quality, price},
-    //         ]
-    //     }
-    // }
+    //assuming response is in format sample.json
+
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
-    //extract data as an array of objects
-    let cardItems = [];
-    response.json().then(data => {
-        data.parse().data.forEach(element => {
-            //element is an object with keys name, x, y, item, quantity, price
-            cardItems.push(element);
-        });
-    });
-    return cardItems;
+    return response.json().data;
 }
 
 export default sendPromptAndData();

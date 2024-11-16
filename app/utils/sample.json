@@ -1,0 +1,22 @@
+{
+  "status": 200,
+  "message": "Success",
+  "data": [
+    {
+      "name": "Costco Wholesale",
+      "x": 47.673988,
+      "y": 0.000000,
+      "item": "Watermelons",
+      "quantity": 100,
+      "price": 5.99
+    },
+    {
+      "name": "Costco Wholesale",
+      "x": 47.673988,
+      "y": 0.000000,
+      "item": "Watermelons",
+      "quantity": 100,
+      "price": 5.99
+    }
+  ]
+}
