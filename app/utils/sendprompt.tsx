@@ -1,5 +1,5 @@
 const lambdaURL = 'https://api-gateway-url.amazonaws.com';
-const sendPromptAndData = async (prompt, LocationData) => {
+const sendPromptAndData = async (prompt: string, LocationData: any) => {
     const response = await fetch(lambdaURL, {
         method: 'POST',
         headers: {
@@ -12,7 +12,8 @@ const sendPromptAndData = async (prompt, LocationData) => {
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
-    return response.json().data;
+    const jsonResponse = await response.json();
+    return jsonResponse.data;
 }
 
-export default sendPromptAndData();
+export default sendPromptAndData;

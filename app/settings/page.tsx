@@ -3,6 +3,9 @@
 import { Label } from "@/components/ui/label";
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { v4 as uuidv4 } from "uuid";
+
 
 import {
   Select,
@@ -17,11 +20,19 @@ import { Button } from "@/components/ui/button";
 
 // integrate geolocation api
 const Settings = () => {
+  const dynamoClient = new DynamoDBClient({
+    region: "us-east-2",
+    credentials: {
+      accessKeyId: "AKIAS5M3Y3QQRVVZIWUM",
+      secretAccessKey: "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",
+    },
+  });
   const Geolocation = navigator.geolocation;
   const restaurantName = userInfoStore((state) => state.restaurantName);
   const restaurantType = userInfoStore((state) => state.restaurantType);
   const setRestaurantName = userInfoStore((state) => state.setRestaurantName);
   const setRestaurantType = userInfoStore((state) => state.setRestaurantType);
+  const location = userInfoStore((state) => state.location);
   const setLocation = userInfoStore((state) => state.setLocation);
   const [address, setAddress] = useState("");
   const restaurantTypes = [
@@ -51,8 +62,40 @@ const Settings = () => {
     "Taverns",
     "Gastropubs",
   ];
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    try {
+      const input = {
+        Item: {
+          restaurantId: {
+            "S": uuidv4(),
+          },
+          restaurantName: {
+            "S": restaurantName
+          },
+          restaurantType: {
+            "S": restaurantType
+          },
+          restaurantLocation: {
+            "M": {
+              longitude: { "S": location.longitude },
+              latitude: { "S": location.latitude }
+            }
+          }
+        },
+        TableName: "Restaurant"
+      }
+      const command = new PutItemCommand(input);
+      await dynamoClient.send(command);
+    }
+    catch (error) {
+      console.error(error);
+    }
+    setRestaurantName("");
+    setRestaurantType("");
+    setLocation("", "");
+    setAddress("");
   };
   const obtainLocation = () => {
     Geolocation.getCurrentPosition(
@@ -71,8 +114,9 @@ const Settings = () => {
   };
 
   useEffect(() => {
-    console.log(restaurantType);
-  }, [restaurantType]);
+    console.log(restaurantType, restaurantName, location);
+    console.log(process.env.AWS_ACCESS_KEY_ID);
+  }, [restaurantType, restaurantName, location])
   return (
     <>
       <hr />
@@ -93,54 +137,51 @@ const Settings = () => {
               </div>
             </fieldset>
 
-            <fieldset className="flex gap-6">
-              <Label className="text-right pt-2.5 w-1/4">Restaurant Type</Label>
-              <div className="flex gap-1 flex-1">
-                <Select onValueChange={(value) => setRestaurantType(value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder={String(restaurantTypes[0])} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {restaurantTypes.slice(1).map((type, i) => {
-                      return (
-                        <SelectItem key={i} value={type}>
-                          {type}
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-                <span className="text-red-500 -translate-y-0.5">*</span>
-              </div>
-            </fieldset>
-
-            <fieldset className="flex gap-6">
-              <Label className="text-right pt-2.5 w-1/4">Location</Label>
-              <div className="grid gap-1 flex-1">
-                <div className="flex gap-1">
-                  <Input
-                    required
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                  <span className="text-red-500 -translate-y-0.5">*</span>
-                </div>
-                <button
-                  className="text-xs text-blue-700 underline text-left"
-                  onClick={obtainLocation}
-                >
-                  Get my Location
-                </button>
-              </div>
-            </fieldset>
-
-            <Button className="w-fit ml-auto mr-2" type="submit">
-              Save
-            </Button>
-          </form>
-        </section>
-      </section>
-    </>
+        <div className="mb-2">
+          <Label className="mb-1">Restaurant Type</Label>
+          <div className="flex">
+            <Select onValueChange={(value) => setRestaurantType(value)}>
+              <SelectTrigger className="w-1/4 mr-1">
+                <SelectValue placeholder={String(restaurantTypes[0])} />
+              </SelectTrigger>
+              <SelectContent>
+                {restaurantTypes.map((type, i) => {
+                  return (
+                    <SelectItem
+                      key={i}
+                      value={type}
+                      className="cursor-pointer bg-white border-white"
+                    >
+                      {type}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+            <span className="text-red-500 -translate-y-0.5">*</span>
+          </div>
+        </div>
+        <div className="mb-2">
+          <Label className="mb-1">Location</Label>
+          <div className="flex">
+            <Input
+              required
+              className="w-1/4 mr-1"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <span className="text-red-500 -translate-y-0.5">*</span>
+          </div>
+          <button
+            className="text-xs text-blue-700 underline"
+            onClick={obtainLocation}
+          >
+            Get my Location
+          </button>
+        </div>
+        <Button className="w-[100px]">Save</Button>
+      </form>
+    </div>
   );
 };
 
