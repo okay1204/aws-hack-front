@@ -116,14 +116,9 @@ const Settings = () => {
   };
 
   useEffect(() => {
-<<<<<<< HEAD
     console.log(restaurantType, restaurantName, location);
     console.log(process.env.AWS_ACCESS_KEY_ID);
   }, [restaurantType, restaurantName, location])
-=======
-    console.log(restaurantType);
-  }, [restaurantType]);
->>>>>>> 51518ea8630c44821b519cc810b6666b923b081f
   return (
     <div>
       <h1 className="font-bold text-2xl m-2">Settings</h1>
