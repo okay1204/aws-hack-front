@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
@@ -14,6 +15,7 @@ export default function Home() {
         </CardHeader>
         <CardContent>
           <p>Test</p>
+          <Button variant={"default"}>Test</Button>
         </CardContent>
       </Card>
     </div>
