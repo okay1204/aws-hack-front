@@ -19,6 +19,6 @@
   }
 
   a {
-    @apply text-zinc-600 underline underline-offset-2 decoration-zinc-300;
+    @apply transition-all active:scale-95 text-zinc-600 underline underline-offset-2 decoration-zinc-300;
   }
 }
