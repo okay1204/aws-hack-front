@@ -18,7 +18,6 @@ import { Button } from "@/components/ui/button";
 // integrate geolocation api
 const Settings = () => {
   const router = useRouter();
-  const Geolocation = navigator.geolocation;
   const restaurantName = userInfoStore((state) => state.restaurantName);
   const restaurantType = userInfoStore((state) => state.restaurantType);
   const setRestaurantName = userInfoStore((state) => state.setRestaurantName);
@@ -94,19 +93,25 @@ const Settings = () => {
     router.push("/" + String(restaurantName));
   };
   const obtainLocation = () => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        setLocation(
-          String(position.coords.longitude),
-          String(position.coords.latitude)
-        );
-        console.log(position);
-        setAddress(`${position.coords.longitude}, ${position.coords.latitude}`);
-      },
-      (error) => {
-        console.error("Error getting location:", error);
-      }
-    );
+    if (typeof window !== "undefined" && "geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation(
+            String(position.coords.longitude),
+            String(position.coords.latitude)
+          );
+          console.log(position);
+          setAddress(
+            `${position.coords.longitude}, ${position.coords.latitude}`
+          );
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not available");
+    }
   };
 
   useEffect(() => {
