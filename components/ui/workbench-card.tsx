@@ -5,11 +5,10 @@ import { Button } from "./button";
 export default function WorkbenchCard({
   name,
   notes,
-  ...props
 }: {
   name: string;
   notes: string;
-} & React.HTMLAttributes<HTMLDivElement>) {
+}) {
   return (
     <Card>
       <CardHeader>
