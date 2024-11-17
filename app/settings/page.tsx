@@ -6,13 +6,10 @@ import { Input } from "@/components/ui/input";
 import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { v4 as uuidv4 } from "uuid";
 
-
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -121,7 +118,8 @@ const Settings = () => {
   useEffect(() => {
     console.log(restaurantType, restaurantName, location);
     console.log(process.env.AWS_ACCESS_KEY_ID);
-  }, [restaurantType, restaurantName, location])
+  }, [restaurantType, restaurantName, location]);
+
   return (
     <div>
       <h1 className="font-bold text-2xl m-2">Settings</h1>
@@ -140,65 +138,54 @@ const Settings = () => {
           </div>
         </div>
 
-        <div className="mb-2">
-          <Label className="mb-1">Restaurant Description</Label>
-          <div className="flex">
-            <Input
-              type="name"
-              required
-              className="w-1/4 mr-1"
-              onChange={(e) => setRestaurantDescription(e.target.value)}
-              value={restaurantDescription}
-            />
-            <span className="text-red-500 -translate-y-0.5">*</span>
-          </div>
-        </div>
+            <fieldset>
+              <Label className="text-left sm:text-right pt-2.5 sm:w-1/4">
+                Restaurant Type
+              </Label>
+              <div className="flex-1 flex gap-1">
+                <Select onValueChange={(value) => setRestaurantType(value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={String(restaurantTypes[0])} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {restaurantTypes.map((type, i) => (
+                      <SelectItem key={i} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <span className="text-red-500 -translate-y-0.5">*</span>
+              </div>
+            </fieldset>
 
-        <div className="mb-2">
-          <Label className="mb-1">Restaurant Type</Label>
-          <div className="flex">
-            <Select onValueChange={(value) => setRestaurantType(value)}>
-              <SelectTrigger className="w-1/4 mr-1">
-                <SelectValue placeholder={String(restaurantTypes[0])} />
-              </SelectTrigger>
-              <SelectContent>
-                {restaurantTypes.map((type, i) => {
-                  return (
-                    <SelectItem
-                      key={i}
-                      value={type}
-                      className="cursor-pointer bg-white border-white"
-                    >
-                      {type}
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
-            <span className="text-red-500 -translate-y-0.5">*</span>
-          </div>
-        </div>
-        <div className="mb-2">
-          <Label className="mb-1">Location</Label>
-          <div className="flex">
-            <Input
-              required
-              className="w-1/4 mr-1"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-            <span className="text-red-500 -translate-y-0.5">*</span>
-          </div>
-          <button
-            className="text-xs text-blue-700 underline"
-            onClick={obtainLocation}
-          >
-            Get my Location
-          </button>
-        </div>
-        <Button className="w-[100px]">Save</Button>
-      </form>
-    </div>
+            <fieldset>
+              <Label className="text-left sm:text-right pt-2.5 sm:w-1/4">
+                Location
+              </Label>
+              <div className="flex-1 grid gap-2">
+                <div className="flex gap-1">
+                  <Input
+                    required
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                  <span className="text-red-500 -translate-y-0.5">*</span>
+                </div>
+                <button
+                  className="text-xs text-left text-blue-700 underline"
+                  onClick={obtainLocation}
+                >
+                  Get my Location
+                </button>
+              </div>
+            </fieldset>
+
+            <Button className="w-fit ml-auto mr-2.5">Save</Button>
+          </form>
+        </section>
+      </section>
+    </>
   );
 };
 
