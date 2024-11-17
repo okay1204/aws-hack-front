@@ -7,7 +7,7 @@ export default function AgentList({ storeName }: { storeName: string }) {
   const getD = async () => {
     try {
       const response = await fetch(
-        "https://n5cvvnkslw6jsh6fnhaqm25fwu0zosut.lambda-url.us-east-2.on.aws",
+        "https://46fnsm73nrerivulj3wuylo43e0ykaha.lambda-url.us-east-2.on.aws/",
         {
           method: "POST",
           headers: {
