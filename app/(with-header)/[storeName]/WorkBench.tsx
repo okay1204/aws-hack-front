@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/select";
 import WorkbenchCard from "@/components/ui/workbench-card";
 import { userInfoStore } from "@/store/store";
+import { Boxes } from "lucide-react";
 import React from "react";
 
 export default function WorkBench() {
@@ -34,18 +35,24 @@ export default function WorkBench() {
         </div>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-        {workBenchCompanies.map(
-          ({ company_name, cost, volume, notes, schedule, agent_id }, i) => (
-            <WorkbenchCard
-              key={i}
-              name={company_name}
-              cost={cost}
-              volume={volume}
-              notes={notes}
-              schedule={schedule}
-              agentId={agent_id}
-            />
+        {workBenchCompanies.length > 0 ? (
+          workBenchCompanies.map(
+            ({ company_name, cost, volume, notes, schedule }, i) => (
+              <WorkbenchCard
+                key={i}
+                name={company_name}
+                cost={cost}
+                volume={volume}
+                notes={notes}
+                schedule={schedule}
+              />
+            )
           )
+        ) : (
+          <div className="bg-zinc-50 border border-zinc-200 shadow-sm px-6 py-20 rounded-2xl flex items-center justify-center flex-col gap-2 md:col-span-2 lg:col-span-3">
+            <Boxes />
+            <p>No workbench found</p>
+          </div>
         )}
       </div>
     </div>
