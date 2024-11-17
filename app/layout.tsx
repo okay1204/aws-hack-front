@@ -7,6 +7,7 @@ import "@next/env";
 
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { userInfoStore } from "@/store/store";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,7 +30,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
   return (
     <html lang="en">
       <body

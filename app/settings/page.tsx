@@ -34,8 +34,8 @@ const Settings = () => {
   const setRestaurantType = userInfoStore((state) => state.setRestaurantType);
   const location = userInfoStore((state) => state.location);
   const setLocation = userInfoStore((state) => state.setLocation);
-  const [address, setAddress] = useState("");
-  const [restaurantDescription, setRestaurantDescription] = useState("");
+  const [ address, setAddress ] = useState("");
+  const [ restaurantDescription, setRestaurantDescription ] = useState("");
   const restaurantTypes = [
     "Fine Dining",
     "Casual Dining",
@@ -85,6 +85,9 @@ const Settings = () => {
           body: JSON.stringify(requestBody),
         }
       );
+
+      // send longitude and latitude to backend lambda function for further processing
+      await fetch(`https://luxfz5yd3ajcyr7vjqkzzqwb7m0hpkax.lambda-url.us-east-2.on.aws/?latitude=${location.latitude}&longitude=${location.longitude}`);
       const fetchedAddress = await res.json();
       setAddress(fetchedAddress);
     } catch (error) {
@@ -117,6 +120,12 @@ const Settings = () => {
     console.log(restaurantType, restaurantName, location);
     console.log(process.env.AWS_ACCESS_KEY_ID);
   }, [restaurantType, restaurantName, location]);
+
+  useEffect(() => {
+    if (restaurantName.length > 0) {
+      router.push('/' + String(restaurantName));
+    }
+  }, [])
 
   return (
     <>
