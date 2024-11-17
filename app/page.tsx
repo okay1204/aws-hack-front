@@ -1,6 +1,7 @@
 import AgentInput from "@/components/ui/agent-input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import LiveAgent from "@/components/ui/live-agent";
 
 export default function Home() {
   return (
@@ -13,6 +14,14 @@ export default function Home() {
       </div>
       <hr />
       <section className="mx-auto max-w-[1000px] w-full grid gap-2 p-6">
+        <h2>Live Agents</h2>
+        <div>
+          <LiveAgent />
+          <LiveAgent />
+          <LiveAgent />
+          <LiveAgent />
+        </div>
+
         <h2>Workbench</h2>
         <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
           <Card>
