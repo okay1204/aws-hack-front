@@ -1,5 +1,6 @@
 import Logo from "@/components/ui/logo";
 import Link from "next/link";
+import Appear from "./Appear";
 
 export default function WithHeaderLayout({
   children,
@@ -21,7 +22,7 @@ export default function WithHeaderLayout({
           </div>
         </nav>
       </header>
-      {children}
+      <Appear>{children}</Appear>
     </>
   );
 }
