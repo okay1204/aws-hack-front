@@ -140,6 +140,19 @@ const Settings = () => {
               </div>
             </fieldset>
             <fieldset>
+              <Label className="mb-1">Restaurant Description</Label>
+              <div className="flex">
+                <Input
+                  type="name"
+                  required
+                  className="w-1/4 mr-1"
+                  onChange={(e) => setRestaurantDescription(e.target.value)}
+                  value={restaurantDescription}
+                />
+                <span className="text-red-500 -translate-y-0.5">*</span>
+              </div>
+            </fieldset>
+            <fieldset>
               <Label className="text-left sm:text-right pt-2.5 sm:w-1/4">
                 Restaurant Type
               </Label>
@@ -160,10 +173,8 @@ const Settings = () => {
               </div>
             </fieldset>
 
-            <fieldset>
-              <Label className="text-left sm:text-right pt-2.5 sm:w-1/4">
-                Location
-              </Label>
+            <fieldset className="mb-4">
+              <Label className="mb-1">Location</Label>
               <div className="flex-1 grid gap-2">
                 <div className="flex gap-1">
                   <Input
@@ -174,6 +185,7 @@ const Settings = () => {
                   <span className="text-red-500 -translate-y-0.5">*</span>
                 </div>
                 <button
+                  type="button"
                   className="text-xs text-left text-blue-700 underline"
                   onClick={obtainLocation}
                 >
@@ -182,7 +194,7 @@ const Settings = () => {
               </div>
             </fieldset>
 
-            <Button className="w-fit ml-auto mr-2.5">Save</Button>
+            <Button className="w-fit ml-auto">Save</Button>
           </form>
         </section>
       </section>
