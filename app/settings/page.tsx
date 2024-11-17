@@ -81,7 +81,7 @@ const Settings = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(requestBody)
+          body: JSON.stringify(requestBody),
         }
       );
       // await fetch(
@@ -89,8 +89,7 @@ const Settings = () => {
       // );
       const fetchedAddress = await res.json();
       setAddress(fetchedAddress);
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error);
     }
     setRestaurantName("");
@@ -121,79 +120,85 @@ const Settings = () => {
   }, [restaurantType, restaurantName, location]);
 
   return (
-    <div>
-      <h1 className="font-bold text-2xl m-2">Settings</h1>
-      <form onSubmit={handleSubmit} className="ml-3 my-2 flex flex-col">
-        <div className="mb-2">
-          <Label className="mb-1">Restaurant Name</Label>
-          <div className="flex">
-            <Input
-              type="name"
-              required
-              className="w-1/4 mr-1"
-              onChange={(e) => setRestaurantName(e.target.value)}
-              value={restaurantName}
-            />
-            <span className="text-red-500 -translate-y-0.5">*</span>
-          </div>
-        </div>
-        <div className="mb-2">
-          <Label className="mb-1">Restaurant Description</Label>
-          <div className="flex">
-            <Input
-              type="name"
-              required
-              className="w-1/4 mr-1"
-              onChange={(e) => setRestaurantDescription(e.target.value)}
-              value={restaurantDescription}
-            />
-            <span className="text-red-500 -translate-y-0.5">*</span>
-          </div>
-        </div>
+    <>
+      <hr />
+      <section className="p-6">
+        <section className="mx-auto max-w-[1000px] grid gap-4">
+          <h1>Settings</h1>
+          <form onSubmit={handleSubmit}>
+            <fieldset>
+              <Label className="mb-1">Restaurant Name</Label>
+              <div className="flex">
+                <Input
+                  type="name"
+                  required
+                  className="w-1/4 mr-1"
+                  onChange={(e) => setRestaurantName(e.target.value)}
+                  value={restaurantName}
+                />
+                <span className="text-red-500 -translate-y-0.5">*</span>
+              </div>
+            </fieldset>
+            <fieldset>
+              <Label className="mb-1">Restaurant Description</Label>
+              <div className="flex">
+                <Input
+                  type="name"
+                  required
+                  className="w-1/4 mr-1"
+                  onChange={(e) => setRestaurantDescription(e.target.value)}
+                  value={restaurantDescription}
+                />
+                <span className="text-red-500 -translate-y-0.5">*</span>
+              </div>
+            </fieldset>
+            <fieldset>
+              <Label className="text-left sm:text-right pt-2.5 sm:w-1/4">
+                Restaurant Type
+              </Label>
+              <div className="flex-1 flex gap-1">
+                <Select onValueChange={(value) => setRestaurantType(value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={String(restaurantTypes[0])} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {restaurantTypes.map((type, i) => (
+                      <SelectItem key={i} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <span className="text-red-500 -translate-y-0.5">*</span>
+              </div>
+            </fieldset>
 
-        <fieldset className="mb-2">
-          <Label className="mb-1">Restaurant Type</Label>
-          <div className="flex gap-1">
-            <Select onValueChange={(value) => setRestaurantType(value)}>
-              <SelectTrigger>
-                <SelectValue placeholder={String(restaurantTypes[0])} />
-              </SelectTrigger>
-              <SelectContent>
-                {restaurantTypes.map((type, i) => (
-                  <SelectItem key={i} value={type}>
-                    {type}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <span className="text-red-500 -translate-y-0.5">*</span>
-          </div>
-        </fieldset>
+            <fieldset className="mb-4">
+              <Label className="mb-1">Location</Label>
+              <div className="flex-1 grid gap-2">
+                <div className="flex gap-1">
+                  <Input
+                    required
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                  <span className="text-red-500 -translate-y-0.5">*</span>
+                </div>
+                <button
+                  type="button"
+                  className="text-xs text-left text-blue-700 underline"
+                  onClick={obtainLocation}
+                >
+                  Get my Location
+                </button>
+              </div>
+            </fieldset>
 
-        <fieldset className="mb-4">
-          <Label className="mb-1">Location</Label>
-          <div className="flex-1 grid gap-2">
-            <div className="flex gap-1">
-              <Input
-                required
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-              <span className="text-red-500 -translate-y-0.5">*</span>
-            </div>
-            <button
-              type="button"
-              className="text-xs text-left text-blue-700 underline"
-              onClick={obtainLocation}
-            >
-              Get my Location
-            </button>
-          </div>
-        </fieldset>
-
-        <Button className="w-fit ml-auto">Save</Button>
-      </form>
-    </div>
+            <Button className="w-fit ml-auto">Save</Button>
+          </form>
+        </section>
+      </section>
+    </>
   );
 };
 
