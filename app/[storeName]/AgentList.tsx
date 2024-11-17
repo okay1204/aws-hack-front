@@ -39,7 +39,7 @@ export default function AgentList({ storeName }: { storeName: string }) {
     <div>
       <h2>Live Agents</h2>
       <div>
-        {data.map((d, i) => (
+        {data && data.map((d, i) => (
           <LiveAgent
             key={i}
             title={d}

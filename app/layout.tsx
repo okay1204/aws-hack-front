@@ -28,6 +28,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // make a request to retrieve user data
   return (
     <html lang="en">
       <body
