@@ -13,7 +13,7 @@ export default async function Home({
       <div className="grid gap-2 bg-zinc-50">
         <section className="mx-auto max-w-[1000px] px-6 pt-24 pb-28 w-full flex flex-col justify-center items-center gap-6">
           <h1>Create Agent</h1>
-          <AgentInput />
+          <AgentInput storeName={storeName} />
         </section>
       </div>
       <hr />
