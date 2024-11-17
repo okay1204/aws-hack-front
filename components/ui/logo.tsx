@@ -1,7 +1,8 @@
+"use client";
 import React from "react";
 import { motion } from "framer-motion";
 
-export default function Logo() {
+export default function Logo({ size = 32 }: { size?: number }) {
   const draw = {
     hidden: { pathLength: 0, opacity: 0, filter: "blur(10px)" },
     visible: {
@@ -18,8 +19,8 @@ export default function Logo() {
   return (
     <div>
       <motion.svg
-        width="32"
-        height="32"
+        width={size}
+        height={size}
         viewBox="0 0 16 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
