@@ -6,9 +6,42 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React, { useEffect } from "react";
+import WorkbenchCard from "@/components/ui/workbench-card";
+import React, { useEffect, useState } from "react";
 
 export default function WorkBench({ storeName }: { storeName: string }) {
+  const [data, setData] = useState([]);
+  const getD = async () => {
+    try {
+      const response = await fetch(
+        "https://fp4htdl24ozhxirnmwfbrdgf2e0iahno.lambda-url.us-east-2.on.aws/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            store_name: storeName,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Lambda response:", data);
+        setData(data);
+      } else {
+        console.error("Lambda call failed:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error calling lambda function:", error);
+    }
+  };
+
+  useEffect(() => {
+    getD();
+  }, [storeName]);
+
   return (
     <div>
       <div className="flex items-center justify-between gap-6">
@@ -29,9 +62,9 @@ export default function WorkBench({ storeName }: { storeName: string }) {
         </div>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-        {/* {dd.map(({ name, notes }, i) => (
-          <WorkbenchCard key={i} name={name} notes={notes} />
-        ))} */}
+        {data.map(({ company_name, notes }, i) => (
+          <WorkbenchCard key={i} name={company_name} notes={notes} />
+        ))}
       </div>
     </div>
   );

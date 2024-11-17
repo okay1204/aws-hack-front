@@ -19,13 +19,6 @@ import { Button } from "@/components/ui/button";
 
 // integrate geolocation api
 const Settings = () => {
-  // const dynamoClient = new DynamoDBClient({
-  //   region: "us-east-2",
-  //   credentials: {
-  //     accessKeyId: "AKIAS5M3Y3QQRVVZIWUM",
-  //     secretAccessKey: "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",
-  //   },
-  // });
   const Geolocation = navigator.geolocation;
   const restaurantName = userInfoStore((state) => state.restaurantName);
   const restaurantType = userInfoStore((state) => state.restaurantType);
@@ -84,9 +77,6 @@ const Settings = () => {
           body: JSON.stringify(requestBody),
         }
       );
-      // await fetch(
-      //   `https://luxfz5yd3ajcyr7vjqkzzqwb7m0hpkax.lambda-url.us-east-2.on.aws/?latitude=${location.latitude}&longitude=${location.longitude}`
-      // );
       const fetchedAddress = await res.json();
       setAddress(fetchedAddress);
     } catch (error) {

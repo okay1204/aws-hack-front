@@ -39,13 +39,19 @@ export default function AgentList({ storeName }: { storeName: string }) {
     <div>
       <h2>Live Agents</h2>
       <div>
-        {data && data.map((d, i) => (
-          <LiveAgent
-            key={i}
-            title={d}
-            description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-          />
-        ))}
+        {data.length > 0 ? (
+          data.map((d, i) => (
+            <LiveAgent
+              key={i}
+              title={d}
+              description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+            />
+          ))
+        ) : (
+          <div className="bg-zinc-50 border border-zinc-200 shadow-sm px-6 py-20 rounded-2xl">
+            <p className="text-center">No agents found</p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,13 +1,20 @@
 "use client";
 import { cn } from "@/lib/utils";
-import React, { useEffect } from "react";
+import React, { useActionState, useEffect } from "react";
 import { Button } from "./button";
+import { useFormState } from "react-dom";
+import SubmitButton from "./submit-button";
 
 export default function AgentInput({
   storeName,
   ...props
 }: { storeName: string } & React.HTMLAttributes<HTMLDivElement>) {
-  const create = async (input: string, description: string) => {
+  const create = async (
+    prev: {
+      result: null | "success" | "failed";
+    },
+    formData: FormData
+  ): Promise<{ result: null | "success" | "failed" }> => {
     const response = await fetch(
       "https://n5cvvnkslw6jsh6fnhaqm25fwu0zosut.lambda-url.us-east-2.on.aws/",
       {
@@ -17,8 +24,8 @@ export default function AgentInput({
         },
         body: JSON.stringify({
           store_name: storeName,
-          agent_name: input,
-          deal_extra_info: description,
+          agent_name: String(formData.get("agentName")),
+          deal_extra_info: String(formData.get("agentDescription")),
         }),
       }
     );
@@ -26,15 +33,29 @@ export default function AgentInput({
     if (response.ok) {
       const data = await response.json();
       console.log("Agent created successfully", data);
+      return {
+        result: "success",
+      };
     } else {
       console.error("Failed to create agent:", response.statusText);
+      return {
+        result: "failed",
+      };
     }
   };
 
-  const [agent, setAgent] = React.useState({
-    name: "",
-    description: "",
-  });
+  const [state, formAction] = useFormState<
+    {
+      result: null | "success" | "failed";
+    },
+    FormData
+  >(create, { result: null });
+
+  useEffect(() => {
+    if (state.result === "success") console.log("Agent created successfully");
+    if (state.result === "failed") console.error("Failed to create agent");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return (
     <form
@@ -42,30 +63,24 @@ export default function AgentInput({
         "grid w-96 border border-zinc-300/70 shadow-xl rounded-xl p-1 bg-zinc-200/50",
         props.className
       )}
-      onSubmit={(e) => {
-        e.preventDefault();
-        create(agent.name, agent.description);
-        setAgent({ name: "", description: "" });
-      }}
+      action={formAction}
     >
       <input
         type="text"
         placeholder="Agent Name"
-        value={agent.name}
-        onChange={(e) => setAgent({ ...agent, name: e.target.value })}
+        name="agentName"
         className="py-3 px-4 text-lg font-medium rounded-t-lg bg-zinc-50 z-20 outline-none"
         required
       />
       <textarea
         placeholder="This agent specializes in..."
-        value={agent.description}
-        onChange={(e) => setAgent({ ...agent, description: e.target.value })}
+        name="agentDescription"
         className="py-3 px-4 text-base font-medium rounded-b-lg bg-zinc-50 z-20 resize-none outline-none"
         required
       />
 
       <div className="p-2 rounded-r-lg flex justify-end">
-        <Button type="submit">Submit</Button>
+        <SubmitButton />
       </div>
     </form>
   );
