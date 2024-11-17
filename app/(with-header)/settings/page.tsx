@@ -121,11 +121,11 @@ const Settings = () => {
     console.log(process.env.AWS_ACCESS_KEY_ID);
   }, [restaurantType, restaurantName, location]);
 
-  useEffect(() => {
-    if (restaurantName.length > 0) {
-      router.push("/" + String(restaurantName));
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (restaurantName.length > 0) {
+  //     router.push("/" + String(restaurantName));
+  //   }
+  // }, []);
 
   return (
     <>
