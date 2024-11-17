@@ -9,11 +9,33 @@ import {
 import WorkbenchCard from "@/components/ui/workbench-card";
 import { userInfoStore } from "@/store/store";
 import { Boxes } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 
-export default function WorkBench() {
+export default function WorkBench({ storeName }) {
   const workBenchCompanies = userInfoStore((state) => state.workBenchCompanies);
+  const setWorkBenchCompanies = userInfoStore((state) => state.setWorkBenchCompanies);
   console.log(workBenchCompanies);
+
+  const fetchData = async () => {
+    const response = await fetch(
+      "https://fp4htdl24ozhxirnmwfbrdgf2e0iahno.lambda-url.us-east-2.on.aws/",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          store_name: storeName,
+        }),
+      }
+    );
+
+    const workBenchCompaniesData = await response.json();
+    setWorkBenchCompanies(workBenchCompaniesData);
+  }
+
+  useEffect(() => {
+    if (workBenchCompanies.length == 0) {
+      fetchData();
+    }
+  }, [workBenchCompanies])
 
   return (
     <div>

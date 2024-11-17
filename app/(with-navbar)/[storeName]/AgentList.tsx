@@ -2,10 +2,37 @@
 import LiveAgent from "@/components/ui/live-agent";
 import { userInfoStore } from "@/store/store";
 import { Layers3 } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 
-export default function AgentList() {
+export default function AgentList({ storeName }) {
   const agentsList = userInfoStore((state) => state.agentsList);
+  const setAgentsList = userInfoStore((state) => state.setAgentsList);
+
+  const fetchAgents = async () => {
+    const response = await fetch(
+      "https://46fnsm73nrerivulj3wuylo43e0ykaha.lambda-url.us-east-2.on.aws/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          store_name: storeName,
+        }),
+      }
+    );
+
+    const agents = await response.json();
+
+    setAgentsList(agents);
+  }
+
+  useEffect(() => {
+    if (agentsList.length == 0) {
+      // make request to lambda function
+      fetchAgents();
+    }
+  }, [agentsList])
 
   return (
     <div>

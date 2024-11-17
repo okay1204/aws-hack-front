@@ -19,8 +19,8 @@ export default async function Home({
       <hr />
 
       <section className="mx-auto max-w-[1000px] w-full grid gap-6 p-6 pb-12 *:grid *:gap-2">
-        <AgentList />
-        <WorkBench />
+        <AgentList storeName={storeName} />
+        <WorkBench storeName={storeName} />
       </section>
     </div>
   );
