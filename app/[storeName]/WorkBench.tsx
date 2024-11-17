@@ -8,9 +8,9 @@ import {
 } from "@/components/ui/select";
 import React, { useEffect } from "react";
 
-export default function WorkBench() {
+export default function WorkBench({ storeName }: { storeName: string }) {
   return (
-    <>
+    <div>
       <div className="flex items-center justify-between gap-6">
         <h2>Workbench</h2>
         <div className="w-fit mt-6">
@@ -33,6 +33,6 @@ export default function WorkBench() {
           <WorkbenchCard key={i} name={name} notes={notes} />
         ))} */}
       </div>
-    </>
+    </div>
   );
 }
