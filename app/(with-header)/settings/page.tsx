@@ -17,13 +17,6 @@ import { Button } from "@/components/ui/button";
 
 // integrate geolocation api
 const Settings = () => {
-  // const dynamoClient = new DynamoDBClient({
-  //   region: "us-east-2",
-  //   credentials: {
-  //     accessKeyId: "AKIAS5M3Y3QQRVVZIWUM",
-  //     secretAccessKey: "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",
-  //   },
-  // });
   const router = useRouter();
   const Geolocation = navigator.geolocation;
   const restaurantName = userInfoStore((state) => state.restaurantName);
@@ -133,14 +126,16 @@ const Settings = () => {
       <section className="p-6">
         <section className="mx-auto max-w-[1000px] grid gap-4">
           <h1>Settings</h1>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={handleSubmit}
+            className="grid gap-3 *:flex *:gap-2 *:flex-col *:sm:flex-row"
+          >
             <fieldset>
-              <Label className="mb-1">Restaurant Name</Label>
-              <div className="flex">
+              <Label className="mt-2 sm:w-1/4">Restaurant Name</Label>
+              <div className="flex-1 flex gap-1">
                 <Input
                   type="name"
                   required
-                  className="w-1/4 mr-1"
                   onChange={(e) => setRestaurantName(e.target.value)}
                   value={restaurantName}
                 />
@@ -148,12 +143,11 @@ const Settings = () => {
               </div>
             </fieldset>
             <fieldset>
-              <Label className="mb-1">Restaurant Description</Label>
-              <div className="flex">
+              <Label className="mt-2 sm:w-1/4">Restaurant Description</Label>
+              <div className="flex-1 flex gap-1">
                 <Input
                   type="name"
                   required
-                  className="w-1/4 mr-1"
                   onChange={(e) => setRestaurantDescription(e.target.value)}
                   value={restaurantDescription}
                 />
@@ -161,9 +155,7 @@ const Settings = () => {
               </div>
             </fieldset>
             <fieldset>
-              <Label className="text-left sm:text-right pt-2.5 sm:w-1/4">
-                Restaurant Type
-              </Label>
+              <Label className="mt-2 sm:w-1/4">Restaurant Type</Label>
               <div className="flex-1 flex gap-1">
                 <Select onValueChange={(value) => setRestaurantType(value)}>
                   <SelectTrigger>
@@ -181,8 +173,8 @@ const Settings = () => {
               </div>
             </fieldset>
 
-            <fieldset className="mb-4">
-              <Label className="mb-1">Location</Label>
+            <fieldset>
+              <Label className="mt-2 sm:w-1/4">Location</Label>
               <div className="flex-1 grid gap-2">
                 <div className="flex gap-1">
                   <Input

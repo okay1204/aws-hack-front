@@ -4,7 +4,7 @@ import Logo from "@/components/ui/logo";
 import SubmitButton from "@/components/ui/submit-button";
 import { TextShimmer } from "@/components/ui/text-shimmer";
 import { userInfoStore } from "@/store/store";
-import { AnimatePresence, delay } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

@@ -9,14 +9,12 @@ export default function WorkbenchCard({
   cost,
   volume,
   schedule,
-  agentId,
 }: {
   name: string;
   notes: string;
   cost: number;
   volume: number;
   schedule: string;
-  agentId: string;
 }) {
   return (
     <Card>
@@ -44,9 +42,6 @@ export default function WorkbenchCard({
       <CardFooter>
         <p className="pt-3">{notes}</p>
       </CardFooter>
-      {/* <div className="bg-zinc-50 border border-zinc-200 shadow-lg absolute px-3 py-1 w-fit rounded-full text-sm -translate-y-4 translate-x-6">
-        {agentId}
-      </div> */}
     </Card>
   );
 }

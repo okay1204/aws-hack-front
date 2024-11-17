@@ -4,11 +4,13 @@ import React, { useEffect } from "react";
 import { useFormState } from "react-dom";
 import SubmitButton from "./submit-button";
 import { PlusIcon } from "lucide-react";
+import { notify } from "@/components/ui/toast";
 
 export default function AgentInput({
   storeName,
   ...props
 }: { storeName: string } & React.HTMLAttributes<HTMLDivElement>) {
+  const formRef = React.useRef<HTMLFormElement>(null);
   const create = async (
     prev: {
       result: null | "success" | "failed";
@@ -52,13 +54,20 @@ export default function AgentInput({
   >(create, { result: null });
 
   useEffect(() => {
-    if (state.result === "success") console.log("Agent created successfully");
-    if (state.result === "failed") console.error("Failed to create agent");
+    if (state.result === "success") {
+      notify("success", "Agent created successfully");
+      formRef.current?.reset();
+    }
+    if (state.result === "failed") {
+      notify("error", "Failed to create agent");
+      console.error("Failed to create agent");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   return (
     <form
+      ref={formRef}
       className={cn(
         "grid w-96 border border-zinc-300/70 shadow-xl rounded-xl p-1 bg-zinc-200/50 gap-0.5",
         props.className

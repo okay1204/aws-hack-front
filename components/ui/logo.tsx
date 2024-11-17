@@ -28,7 +28,7 @@ export default function Logo({ size = 32 }: { size?: number }) {
         animate="visible"
       >
         <motion.path
-          d="M3 1L15 1V15H1V3L8 10V4"
+          d="M5 1L15 1V15H1V3L8 10V4"
           stroke="black"
           strokeWidth={2}
           variants={draw}

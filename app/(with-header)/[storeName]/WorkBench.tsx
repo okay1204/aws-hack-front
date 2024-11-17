@@ -37,7 +37,7 @@ export default function WorkBench() {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
         {workBenchCompanies.length > 0 ? (
           workBenchCompanies.map(
-            ({ company_name, cost, volume, notes, schedule, agent_id }, i) => (
+            ({ company_name, cost, volume, notes, schedule }, i) => (
               <WorkbenchCard
                 key={i}
                 name={company_name}
@@ -45,7 +45,6 @@ export default function WorkBench() {
                 volume={volume}
                 notes={notes}
                 schedule={schedule}
-                agentId={agent_id}
               />
             )
           )
