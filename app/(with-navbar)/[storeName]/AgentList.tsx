@@ -4,7 +4,7 @@ import { userInfoStore } from "@/store/store";
 import { Layers3 } from "lucide-react";
 import React, { useEffect } from "react";
 
-export default function AgentList({ storeName }) {
+export default function AgentList({ storeName }: { storeName: string }) {
   const agentsList = userInfoStore((state) => state.agentsList);
   const setAgentsList = userInfoStore((state) => state.setAgentsList);
 
