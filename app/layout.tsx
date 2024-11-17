@@ -2,12 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import "@next/env";
-// import { config } from "dotenv";
-// config();
-
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { userInfoStore } from "@/store/store";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,6 +12,12 @@ const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
+});
+
+const funnelDisplay = localFont({
+  src: "./fonts/FunnelDisplayRegular.ttf",
+  variable: "--font-funnel-display",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${funnelDisplay.variable} antialiased`}
       >
         {children}
       </body>

@@ -1,9 +1,7 @@
 "use client";
-// import { Card } from '@/components/ui/card';
 import { Label } from "@/components/ui/label";
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { useRouter } from "next/navigation";
 
 import {
@@ -34,8 +32,8 @@ const Settings = () => {
   const setRestaurantType = userInfoStore((state) => state.setRestaurantType);
   const location = userInfoStore((state) => state.location);
   const setLocation = userInfoStore((state) => state.setLocation);
-  const [ address, setAddress ] = useState("");
-  const [ restaurantDescription, setRestaurantDescription ] = useState("");
+  const [address, setAddress] = useState("");
+  const [restaurantDescription, setRestaurantDescription] = useState("");
   const restaurantTypes = [
     "Fine Dining",
     "Casual Dining",
@@ -87,7 +85,9 @@ const Settings = () => {
       );
 
       // send longitude and latitude to backend lambda function for further processing
-      await fetch(`https://luxfz5yd3ajcyr7vjqkzzqwb7m0hpkax.lambda-url.us-east-2.on.aws/?latitude=${location.latitude}&longitude=${location.longitude}`);
+      await fetch(
+        `https://luxfz5yd3ajcyr7vjqkzzqwb7m0hpkax.lambda-url.us-east-2.on.aws/?latitude=${location.latitude}&longitude=${location.longitude}`
+      );
       const fetchedAddress = await res.json();
       setAddress(fetchedAddress);
     } catch (error) {
@@ -123,9 +123,9 @@ const Settings = () => {
 
   useEffect(() => {
     if (restaurantName.length > 0) {
-      router.push('/' + String(restaurantName));
+      router.push("/" + String(restaurantName));
     }
-  }, [])
+  }, []);
 
   return (
     <>
