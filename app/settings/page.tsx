@@ -22,13 +22,13 @@ import { Button } from "@/components/ui/button";
 
 // integrate geolocation api
 const Settings = () => {
-  const dynamoClient = new DynamoDBClient({
-    region: "us-east-2",
-    credentials: {
-      accessKeyId: "AKIAS5M3Y3QQRVVZIWUM",
-      secretAccessKey: "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",
-    },
-  });
+  // const dynamoClient = new DynamoDBClient({
+  //   region: "us-east-2",
+  //   credentials: {
+  //     accessKeyId: "AKIAS5M3Y3QQRVVZIWUM",
+  //     secretAccessKey: "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",
+  //   },
+  // });
   const Geolocation = navigator.geolocation;
   const restaurantName = userInfoStore((state) => state.restaurantName);
   const restaurantType = userInfoStore((state) => state.restaurantType);
@@ -37,6 +37,7 @@ const Settings = () => {
   const location = userInfoStore((state) => state.location);
   const setLocation = userInfoStore((state) => state.setLocation);
   const [address, setAddress] = useState("");
+  const [restaurantDescription, setRestaurantDescription] = useState("");
   const restaurantTypes = [
     "Fine Dining",
     "Casual Dining",
@@ -66,30 +67,31 @@ const Settings = () => {
   ];
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    const requestBody = {
+      location: {
+        latitude: location.latitude,
+        longitude: location.longitude,
+      },
+      restaurantName: restaurantName,
+      restaurantType: restaurantType,
+      restaurantDescription: restaurantDescription,
+    };
     try {
-      const input = {
-        Item: {
-          restaurantId: {
-            "S": uuidv4(),
+      const res = await fetch(
+        "https://wt66ikzsbibj2lgnfrmqj2en4i0iczlt.lambda-url.us-east-2.on.aws/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-          restaurantName: {
-            "S": restaurantName
-          },
-          restaurantType: {
-            "S": restaurantType
-          },
-          restaurantLocation: {
-            "M": {
-              longitude: { "S": location.longitude },
-              latitude: { "S": location.latitude }
-            }
-          }
-        },
-        TableName: "Restaurant"
-      }
-      const command = new PutItemCommand(input);
-      await dynamoClient.send(command);
+          body: JSON.stringify(requestBody)
+        }
+      );
+      // await fetch(
+      //   `https://luxfz5yd3ajcyr7vjqkzzqwb7m0hpkax.lambda-url.us-east-2.on.aws/?latitude=${location.latitude}&longitude=${location.longitude}`
+      // );
+      const fetchedAddress = await res.json();
+      setAddress(fetchedAddress);
     }
     catch (error) {
       console.error(error);
@@ -98,6 +100,7 @@ const Settings = () => {
     setRestaurantType("");
     setLocation("", "");
     setAddress("");
+    setRestaurantDescription("");
   };
   const obtainLocation = () => {
     Geolocation.getCurrentPosition(
@@ -132,6 +135,20 @@ const Settings = () => {
               className="w-1/4 mr-1"
               onChange={(e) => setRestaurantName(e.target.value)}
               value={restaurantName}
+            />
+            <span className="text-red-500 -translate-y-0.5">*</span>
+          </div>
+        </div>
+
+        <div className="mb-2">
+          <Label className="mb-1">Restaurant Description</Label>
+          <div className="flex">
+            <Input
+              type="name"
+              required
+              className="w-1/4 mr-1"
+              onChange={(e) => setRestaurantDescription(e.target.value)}
+              value={restaurantDescription}
             />
             <span className="text-red-500 -translate-y-0.5">*</span>
           </div>
