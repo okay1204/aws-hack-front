@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
-import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/navigation";
 
 import {
   Select,
@@ -19,6 +19,14 @@ import { Button } from "@/components/ui/button";
 
 // integrate geolocation api
 const Settings = () => {
+  // const dynamoClient = new DynamoDBClient({
+  //   region: "us-east-2",
+  //   credentials: {
+  //     accessKeyId: "AKIAS5M3Y3QQRVVZIWUM",
+  //     secretAccessKey: "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",
+  //   },
+  // });
+  const router = useRouter();
   const Geolocation = navigator.geolocation;
   const restaurantName = userInfoStore((state) => state.restaurantName);
   const restaurantType = userInfoStore((state) => state.restaurantType);
@@ -87,6 +95,7 @@ const Settings = () => {
     setLocation("", "");
     setAddress("");
     setRestaurantDescription("");
+    router.push("/" + String(restaurantName));
   };
   const obtainLocation = () => {
     Geolocation.getCurrentPosition(
