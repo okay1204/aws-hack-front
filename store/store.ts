@@ -11,6 +11,8 @@ interface User {
   setRestaurantType: (input: string) => void;
   setCompanyAddress: (input: string) => void;
   setAgentsList: (input: Array<string>) => void;
+  workBenchCompanies: any[];
+  setWorkBenchCompanies: (input: Array<any>) => void;
 }
 
 export const userInfoStore = create<User>((set) => ({
@@ -27,7 +29,13 @@ export const userInfoStore = create<User>((set) => ({
   setRestaurantType: (input: string) => set({ restaurantType: input }),
   setCompanyAddress: (input: string) => set({ companyAddress: input }),
   agentsList: [],
-  setAgentsList: (input: Array<string>) => set((state) => ({ 
-    agentsList: [...state.agentsList, ...input] 
-  }))
+  setAgentsList: (input: Array<string>) =>
+    set((state) => ({
+      agentsList: [...state.agentsList, ...input],
+    })),
+  workBenchCompanies: [],
+  setWorkBenchCompanies: (input: Array<any>) =>
+    set((state) => ({
+      workBenchCompanies: [...state.workBenchCompanies, ...input],
+    })),
 }));

@@ -6,12 +6,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-type Props = {}
 
-const Home = (props: Props) => {
+const Home = () => {
     const restaurantName = userInfoStore((state) => state.restaurantName);
     const setRestaurantName = userInfoStore((state) => state.setRestaurantName);
     const setAgentsList = userInfoStore((state) => state.setAgentsList);
+    const setWorkBenchCompaneis = userInfoStore((state) => state.setWorkBenchCompanies);
 
     const router = useRouter();
 
@@ -20,16 +20,31 @@ const Home = (props: Props) => {
             const response = await fetch(
               "https://46fnsm73nrerivulj3wuylo43e0ykaha.lambda-url.us-east-2.on.aws/", {
                 method: 'POST',
+                headers: {
+                    'Content-Type': "application/json"
+                },
                 body: JSON.stringify({
                     store_name: restaurantName
                 })
               }
             );
 
+            const response2 = await fetch(
+              "https://fp4htdl24ozhxirnmwfbrdgf2e0iahno.lambda-url.us-east-2.on.aws/",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  store_name: restaurantName,
+                }),
+              }
+            );
+
             const agentsList = await response.json();
+            const workBenchData = await response2.json();
 
             // store in zustand
             setAgentsList(agentsList);
+            setWorkBenchCompaneis(workBenchData);
 
             if (agentsList.length > 0) {
                 router.push('/' + restaurantName);
