@@ -60,7 +60,8 @@ const Home = () => {
       console.log("passed");
       console.log(restaurantName);
 
-      // store in zustand
+      
+      console.log(agentsList);
       setAgentsList(agentsList);
       setWorkBenchCompaneis(workBenchData);
 

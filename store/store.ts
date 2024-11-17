@@ -5,7 +5,7 @@ interface User {
   restaurantType: string;
   companyAddress: string;
   location: { longitude: string; latitude: string };
-  agentsList: Array<string>
+  agentsList: Array<any>
   setLocation: (ln: string, lat: string) => void;
   setRestaurantName: (input: string) => void;
   setRestaurantType: (input: string) => void;
@@ -29,7 +29,7 @@ export const userInfoStore = create<User>((set) => ({
   setRestaurantType: (input: string) => set({ restaurantType: input }),
   setCompanyAddress: (input: string) => set({ companyAddress: input }),
   agentsList: [],
-  setAgentsList: (input: Array<string>) =>
+  setAgentsList: (input: Array<any>) =>
     set((state) => ({
       agentsList: [...state.agentsList, ...input],
     })),

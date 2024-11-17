@@ -15,8 +15,8 @@ export default function AgentList() {
           agentsList.map((d, i) => (
             <LiveAgent
               key={i}
-              title={d}
-              description="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+              title={d.name}
+              description={d.description}
             />
           ))
         ) : (
