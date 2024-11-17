@@ -8,40 +8,11 @@ import {
 } from "@/components/ui/select";
 import WorkbenchCard from "@/components/ui/workbench-card";
 import { userInfoStore } from "@/store/store";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-export default function WorkBench({ storeName }: { storeName: string }) {
+export default function WorkBench() {
   const workBenchCompanies = userInfoStore((state) => state.workBenchCompanies);
-  // const getD = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       "https://fp4htdl24ozhxirnmwfbrdgf2e0iahno.lambda-url.us-east-2.on.aws/",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           store_name: storeName,
-  //         }),
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log("Lambda response:", data);
-  //       setData(data);
-  //     } else {
-  //       console.error("Lambda call failed:", response.statusText);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error calling lambda function:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getD();
-  // }, [storeName]);
+  console.log(workBenchCompanies);
 
   return (
     <div>
@@ -63,9 +34,19 @@ export default function WorkBench({ storeName }: { storeName: string }) {
         </div>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-        {workBenchCompanies.map(({ company_name, notes }, i) => (
-          <WorkbenchCard key={i} name={company_name} notes={notes} />
-        ))}
+        {workBenchCompanies.map(
+          ({ company_name, cost, volume, notes, schedule, agent_id }, i) => (
+            <WorkbenchCard
+              key={i}
+              name={company_name}
+              cost={cost}
+              volume={volume}
+              notes={notes}
+              schedule={schedule}
+              agentId={agent_id}
+            />
+          )
+        )}
       </div>
     </div>
   );

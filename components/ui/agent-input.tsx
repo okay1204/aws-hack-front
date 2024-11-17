@@ -1,9 +1,9 @@
 "use client";
 import { cn } from "@/lib/utils";
-import React, { useActionState, useEffect } from "react";
-import { Button } from "./button";
+import React, { useEffect } from "react";
 import { useFormState } from "react-dom";
 import SubmitButton from "./submit-button";
+import { PlusIcon } from "lucide-react";
 
 export default function AgentInput({
   storeName,
@@ -80,7 +80,11 @@ export default function AgentInput({
       />
 
       <div className="p-2 rounded-r-lg flex justify-end">
-        <SubmitButton />
+        <SubmitButton
+          initialIcon={<PlusIcon />}
+          initial="Create"
+          loading="Creating..."
+        />
       </div>
     </form>
   );
