@@ -16,7 +16,7 @@ const Home = () => {
 
   const router = useRouter();
 
-  async function handleClick(e) {
+  async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     try {
       const response = await fetch(
