@@ -60,7 +60,7 @@ export default function AgentInput({
   return (
     <form
       className={cn(
-        "grid w-96 border border-zinc-300/70 shadow-xl rounded-xl p-1 bg-zinc-200/50",
+        "grid w-96 border border-zinc-300/70 shadow-xl rounded-xl p-1 bg-zinc-200/50 gap-0.5",
         props.className
       )}
       action={formAction}
@@ -69,13 +69,13 @@ export default function AgentInput({
         type="text"
         placeholder="Agent Name"
         name="agentName"
-        className="py-3 px-4 text-lg font-medium rounded-t-lg bg-zinc-50 z-20 outline-none"
+        className="py-3 px-4 text-sm font-medium rounded-t-lg bg-zinc-50 z-20 outline-none rounded-b-md"
         required
       />
       <textarea
         placeholder="This agent specializes in..."
         name="agentDescription"
-        className="py-3 px-4 text-base font-medium rounded-b-lg bg-zinc-50 z-20 resize-none outline-none"
+        className="py-3 px-4 text-sm font-medium rounded-b-lg bg-zinc-50 z-20 resize-none outline-none rounded-t-md"
         required
       />
 
