@@ -16,7 +16,8 @@ const Home = () => {
 
   const router = useRouter();
 
-  async function handleClick() {
+  async function handleClick(e) {
+    e.preventDefault();
     try {
       const response = await fetch(
         "https://46fnsm73nrerivulj3wuylo43e0ykaha.lambda-url.us-east-2.on.aws/",
@@ -43,6 +44,9 @@ const Home = () => {
 
       const agentsList = await response.json();
       const workBenchData = await response2.json();
+
+      console.log("passed");
+      console.log(restaurantName);
 
       // store in zustand
       setAgentsList(agentsList);
